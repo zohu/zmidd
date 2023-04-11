@@ -1,7 +1,5 @@
 package zmidd
 
-// 一个gin cors中间件
-
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -25,6 +23,8 @@ type Options struct {
 
 type Option func(s string) *Options
 
+var conf *Options
+
 func WithAllowOrigin(allowOrigin string) *Options {
 	conf.AllowOrigin = allowOrigin
 	return conf
@@ -46,9 +46,8 @@ func WithExposeHeaders(exposeHeaders string) *Options {
 	return conf
 }
 
-var conf *Options
-
 func init() {
+	conf = new(Options)
 	conf.AllowOrigin = DefaultAllowOrigin
 	conf.AllowMethods = DefaultAllowMethods
 	conf.AllowHeaders = DefaultAllowHeaders
@@ -62,7 +61,7 @@ func init() {
 // @Return gin.HandlerFunc 返回一个gin.HandlerFunc
 // 可以直接使用gin.Use(Cors()) 或者在路由中使用Cors() 即可
 // 如果需要设置跨域的配置 可以使用 WithAllowOrigin WithAllowMethods WithAllowHeaders WithAllowCredentials WithExposeHeaders
-func Cors(ops ...Option) gin.HandlerFunc {
+func Cors(_ ...Option) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
 		if method != "" {
