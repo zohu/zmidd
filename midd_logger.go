@@ -75,7 +75,7 @@ func Logger(conf LoggerConfig, whitelist []string) gin.HandlerFunc {
 		// 构建日志
 		lf := new(LogLinkField)
 		lf.Tag = conf.LogTag
-		lf.Rid = zutils.FirstValue(c.Request.Header.Get("X-Request-ID"), GetRequestId(c))
+		lf.Rid = zutils.FirstTruthString(c.Request.Header.Get("X-Request-ID"), GetRequestId(c))
 		lf.Time = time.Now().UnixMicro()
 		ua := user_agent.New(c.Request.UserAgent())
 		brow, browVersion := ua.Browser()
@@ -99,7 +99,7 @@ func Logger(conf LoggerConfig, whitelist []string) gin.HandlerFunc {
 		} else {
 			data, _ := c.GetRawData()
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(data))
-			lf.Param = zutils.FirstValue(string(data), c.Request.URL.RawQuery)
+			lf.Param = zutils.FirstTruthString(string(data), c.Request.URL.RawQuery)
 			if len([]rune(lf.Param)) > conf.MaxBody {
 				lf.Param = string([]rune(lf.Param)[:conf.MaxBody]) + "..."
 			}

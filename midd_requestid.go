@@ -21,7 +21,7 @@ func RequestId() gin.HandlerFunc {
 }
 
 func GetRequestId(c *gin.Context) string {
-	return zutils.FirstValue(
+	return zutils.FirstTruthString(
 		c.Writer.Header().Get(headerXRequestID),
 		c.Request.Header.Get(headerXRequestID),
 		c.GetHeader(headerXRequestID),

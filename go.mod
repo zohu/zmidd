@@ -10,7 +10,7 @@ require (
 	github.com/rs/xid v1.4.0
 	github.com/zohu/zflag v0.0.2
 	github.com/zohu/zlog v0.0.9
-	github.com/zohu/zutils v0.0.6
+	github.com/zohu/zutils v0.0.9
 	go.uber.org/zap v1.24.0
 )
 
