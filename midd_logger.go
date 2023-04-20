@@ -102,7 +102,6 @@ func Logger(conf LoggerConfig, whitelist []string) gin.HandlerFunc {
 			lf.Param = zutils.FirstTruthString(string(data), c.Request.URL.RawQuery)
 			lf.Param = strings.ReplaceAll(lf.Param, "\n", "")
 			lf.Param = strings.ReplaceAll(lf.Param, "\t", "")
-			lf.Param = strings.ReplaceAll(lf.Param, " ", "")
 			if len([]rune(lf.Param)) > conf.MaxBody {
 				lf.Param = string([]rune(lf.Param)[:conf.MaxBody]) + "..."
 			}
