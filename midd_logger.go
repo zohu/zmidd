@@ -99,7 +99,7 @@ func Logger(conf LoggerConfig, whitelist []string) gin.HandlerFunc {
 		} else {
 			data, _ := c.GetRawData()
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(data))
-			lf.Param = zutils.FirstTruthString(string(data), c.Request.URL.RawQuery)
+			lf.Param = strings.ReplaceAll(zutils.FirstTruthString(string(data), c.Request.URL.RawQuery), "\n", "")
 			if len([]rune(lf.Param)) > conf.MaxBody {
 				lf.Param = string([]rune(lf.Param)[:conf.MaxBody]) + "..."
 			}
